@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-Tw" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Msg Board</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-full">
+  <div class="flex flex-col min-h-screen">
+    <div id="progress-bar" class="flex-[0_0_12px] bg-teal-200 w-0"></div>
+    <header>
+      <div class="container mx-auto px-4">
+        <h1 class="text-2xl text-center mt-3 font-bold text-rose-400">〃留言板╭★</h1>
+        <form id="form-message" class="mx-auto mt-6 p-4 border border-solid border-zinc-300 rounded-md md:max-w-2xl">
+          <div class="mb-2">
+            <label for="content" class="align-top font-bold float-left w-12">
+              <span class="text-rose-500">* </span>內容
+            </label>
+            <textarea name="content" rows="3" class="border border-solid outline-none indent-1 w-[calc(100%_-_3rem)]"></textarea>
+          </div>
+          <div class="mb-2">
+            <label for="image" class="font-bold">
+              <span class="text-rose-500">* </span>上傳圖片
+            </label>
+            <input name="image-file" type="file" accept='image/gif, image/jpeg, image/png' class="file:cursor-pointer">
+          </div>
+          <div class="flex justify-end items-center gap-2">
+            <div id="hint-error" class="h-6 leading-6 align-middle gap-1 hidden text-teal-500 font-bold">請填妥所有欄位。</div>
+            <button type="submit" class="block border border-solid rounded-sm px-2 py-1 mr-2 font-bold bg-gray-100 hover:bg-gray-50">送出留言</button>
+          </div>
+        </form>
+      </div>
+    </header>
+    <main class="grow">
+      <div id="container-messages" class="container mx-auto px-4">
+        <!-- <div class="mx-auto my-8 p-4 border border-solid border-zinc-300 rounded-md md:max-w-2xl">
+          <div class="text-blue-500 text-lg font-bold">測試內容喔喔喔</div>
+          <div class="mt-2 mb-1.5">
+            <img class="object-cover object-center" src="https://images.plurk.com/56v8p1wE9D9tZiEhz083mN.png">
+          </div>
+        </div> -->
+      </div>
+    </main>
+    <footer class="bg-zinc-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center my-3">&copy; Kyo 2022</div>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
