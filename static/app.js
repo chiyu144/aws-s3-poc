@@ -18,6 +18,7 @@ const getMessages = async() => {
   else return res.data;
 };
 const postMessage = async(formData) => {
+  const messageForm = document.querySelector('#form-message');
   const messageButton = document.querySelector('#button-message');
   messageButton.disabled = true;
   messageButton.textContent = '處理中…';

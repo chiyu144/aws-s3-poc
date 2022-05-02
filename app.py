@@ -47,17 +47,13 @@ def insert_message(cursor, content, image_url):
 
 
 def upload_image(image_file):
-  aws_default_region = os.getenv('AWS_DEFAULT_REGION')
-  aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
-  aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
-  s3_bucket_name = os.getenv('S3_BUCKET_NAME')
   image_file_name = secure_filename(image_file.filename)
-  s3 = boto3.client('s3', aws_access_key_id=aws_access_key_id,
-                    aws_secret_access_key=aws_secret_access_key)
+  s3 = boto3.client('s3', aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+                    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'))
   try:
-    s3.upload_fileobj(image_file, s3_bucket_name,
-                      f"msgboard/{image_file_name}")
-    image_url = f"https://{s3_bucket_name}.s3.{aws_default_region}.amazonaws.com/msgboard/{image_file_name}"
+    s3.upload_fileobj(image_file, os.getenv('S3_BUCKET_NAME'),
+                      f"msgboard/{image_file_name}", ExtraArgs={'ContentType': image_file.content_type})
+    image_url = f"{os.getenv('CLOUDFRONT_DOMAIN')}/msgboard/{image_file_name}"
     return image_url
   except Exception as e:
     abort(500, description=abort_message(e))
