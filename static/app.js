@@ -18,21 +18,21 @@ const getMessages = async() => {
   else return res.data;
 };
 const postMessage = async(formData) => {
-  const progressStartTime = new Date();
-  const progressBar = document.querySelector('#progress-bar');
+  const messageButton = document.querySelector('#button-message');
+  messageButton.disabled = true;
+  messageButton.textContent = '處理中…';
   const res = await messagesApi('POST', formData);
-  const isAnimating = await animeProgressBar(progressStartTime);
   if (res.error) console.log('Error: Post Message Failed.')
   if (res.ok) {
-    if(!isAnimating) {
-      const messages = await getMessages();
-      const messagesContainer = document.querySelector('#container-messages');
-      while (messagesContainer.firstChild) {
-        messagesContainer.removeChild(messagesContainer.firstChild);
-      };
-      render(messages, true);
-      progressBar.style.width = 0;
-    }
+    const messages = await getMessages();
+    const messagesContainer = document.querySelector('#container-messages');
+    while (messagesContainer.firstChild) {
+      messagesContainer.removeChild(messagesContainer.firstChild);
+    };
+    render(messages, true);
+    messageButton.textContent = '送出留言';
+    messageButton.disabled = false;
+    messageForm.reset();
   };
 };
 const render = (messages, isReRender = false) => {
@@ -65,25 +65,10 @@ const render = (messages, isReRender = false) => {
     };
   });
 };
-const animeProgressBar = async(startTime = undefined) => {
-  const progressBar = document.querySelector('#progress-bar');
-  return await new Promise(resolve => {
-    const intervalTimerId = setInterval(() => {
-      const timePassed = new Date() - startTime;
-      let progress = timePassed / 500;
-      if (progress > 1) { progress = 1; }
-      let delta = Math.pow(progress, 2);
-      progressBar.style.width = `${ 100 * Math.abs(delta) }%`;
-      if( progress === 1 ) {
-        clearInterval(intervalTimerId);
-        resolve(false);
-      };
-    }, 20);
-  })
-};
 document.addEventListener('DOMContentLoaded', async() => {
   const errorHint = document.querySelector('#hint-error'); 
   const messageForm = document.querySelector('#form-message');
+  const backtotopLink = document.querySelector('#link-backtotop');
   const messages = await getMessages();
   if(messages.length > 0){render(messages);}
 
@@ -96,7 +81,10 @@ document.addEventListener('DOMContentLoaded', async() => {
     else {
       !errorHint.classList.contains('hidden') && errorHint.classList.add('hidden');
       postMessage(formData);
-      messageForm.reset();
     };
+  });
+  backtotopLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scroll({top: 0, behavior: 'smooth'});
   });
 });

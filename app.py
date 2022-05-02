@@ -1,4 +1,3 @@
-from email.mime import image
 import os
 from dotenv import load_dotenv
 from flask import Flask, render_template, current_app, abort, jsonify, request
