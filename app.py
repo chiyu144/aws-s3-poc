@@ -107,4 +107,7 @@ def internal_server_error(e):
 
 
 if __name__ == '__main__':
-  app.run(port=3000, debug=True)
+  debug_mode = True if os.getenv('FLASK_ENV') == 'development' else False
+  host_ip = '127.0.0.1' if os.getenv(
+      'FLASK_ENV') == 'development' else '0.0.0.0'
+  app.run(host=host_ip, port=5000, debug=debug_mode)
