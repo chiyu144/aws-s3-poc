@@ -1,5 +1,7 @@
 import os
 from dotenv import load_dotenv
+from waitress import serve
+from paste.translogger import TransLogger
 from flask import Flask, render_template, current_app, abort, jsonify, request
 import boto3
 from mysql.connector import Error, pooling
@@ -107,7 +109,6 @@ def internal_server_error(e):
 
 
 if __name__ == '__main__':
-  debug_mode = True if os.getenv('FLASK_ENV') == 'development' else False
   host_ip = '127.0.0.1' if os.getenv(
       'FLASK_ENV') == 'development' else '0.0.0.0'
-  app.run(host=host_ip, port=5000, debug=debug_mode)
+  serve(TransLogger(app), host=host_ip, port=5000)
