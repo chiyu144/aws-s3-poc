@@ -98,7 +98,7 @@ def post_message():
     abort(500, description=abort_message(e))
 
 
-@app.route(f"/{os.getenv('LOADERIO_TOKEN')}", methods=['GET'])
+@app.route(f"/{os.getenv('LOADERIO_TOKEN')}/", methods=['GET'])
 def loader_io():
   return send_from_directory('./', f"{os.getenv('LOADERIO_TOKEN')}.txt", as_attachment=True)
 
