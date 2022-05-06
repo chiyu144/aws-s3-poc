@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from waitress import serve
 from paste.translogger import TransLogger
-from flask import Flask, render_template, current_app, abort, jsonify, request
+from flask import Flask, render_template, current_app, abort, jsonify, request, send_file, send_from_directory
 import boto3
 from mysql.connector import Error, pooling
 from werkzeug.utils import secure_filename
@@ -96,6 +96,11 @@ def post_message():
     abort(400, description=abort_message(e))
   except Exception as e:
     abort(500, description=abort_message(e))
+
+
+@app.route(f"/{os.getenv('LOADERIO_TOKEN')}", methods=['GET'])
+def loader_io():
+  return send_from_directory('./', f"{os.getenv('LOADERIO_TOKEN')}.txt", as_attachment=True)
 
 
 @app.errorhandler(400)
