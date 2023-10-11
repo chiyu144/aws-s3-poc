@@ -6,8 +6,7 @@
 
 #### Front-end Tech Stack
 - Vanilla JavaScript
-- HTML 5
-- Taildwind CSS
+- HTML 5 + Taildwind CSS
 
 #### Backend Tech Stack
 - Flask (Python 3)
